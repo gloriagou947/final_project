@@ -44,7 +44,7 @@ shinyServer(function(input, output) {
         num_am <- nrow(filter(df, hour == i, am_pm == "AM"))
         num_pm <- nrow(filter(df, hour == i, am_pm == "PM"))
         countX[i] <- num_am
-        countX[i + 12] <- num_am
+        countX[i + 12] <- num_pm
       }
       return(countX)
     }
