@@ -10,7 +10,7 @@ library(RColorBrewer)
 library(ggplot2)
 library(ggmap)
 library(plotly)
-shinyServer(function(input, output, session) {
+shinyServer(function(input, output) {
   
   # Read in data file
   seattleCrimes <- read.csv("data/Seattle_Police_Department_911_Incident_Response.csv")
@@ -49,7 +49,7 @@ shinyServer(function(input, output, session) {
     }
     
     #graph for day 1
-    plot_ly(
+    p <- plot_ly(
       x = hours,
       y = each_day(day1),
       name = "Day 1",
@@ -66,9 +66,9 @@ shinyServer(function(input, output, session) {
       x = hours,
       y = each_day(day3),
       name = "Day 3"
-    ) %>%
+    ) 
     #plot the final bar chart
-    layout(barmode = "stack", xaxis = list(title = "Each hour crime counts"),
+    layout(p, barmode = "stack", xaxis = list(title = "Each hour crime counts"),
            yaxis = list(title = "Total crime"))
   })
   

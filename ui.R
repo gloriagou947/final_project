@@ -8,6 +8,7 @@
 library(shiny)
 library(ggmap)
 library(ggplot2)
+library(plotly)
 shinyUI(fluidPage(
   titlePanel(h1("Seattle Crimes 2016", align = 'center')),
   
