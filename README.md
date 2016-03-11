@@ -1,6 +1,23 @@
 # final_project 
 # URL of our shiny app: https://gloriagou947.shinyapps.io/final_project/
 
+## ggmap citation:
+D. Kahle and H. Wickham. ggmap: Spatial Visualization with ggplot2. The R Journal, 5(1), 144-161. URL http://journal.r-project.org/archive/2013-1/kahle-wickham.pdf
+Corresponding BibTeX entry:
+  @Article{,
+    author = {David Kahle and Hadley Wickham},
+    title = {ggmap: Spatial Visualization with ggplot2},
+    journal = {The R Journal},
+    year = {2013},
+    volume = {5},
+    number = {1},
+    pages = {144–161},
+    url =
+      {http://journal.r-project.org/archive/2013-1/kahle-wickham.pdf},
+  }
+## We also followed the example from http://www.sharpsightlabs.com/mapping-seattle-crime/
+
+
 Project Description
 This is a written, non-technical description of your project.  Depending on the specifics of your project, you should outline the answers to these (and perhaps other) questions:
 ●	What is the dataset you'll be working with?  Please include background on who collected the data, where you accessed it, and any additional information we should know about how this data came to be.
