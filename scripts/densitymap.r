@@ -1,3 +1,4 @@
+## install packages that are needed to run the app
 install.packages('ggmap')
 install.packages('ggplot2')
 install.packages('dplyr')
@@ -6,6 +7,7 @@ library(ggmap)
 library(dplyr)
 library(ggplot2)
 
+## read the dataset
 seattleCrimes <- read.csv("data/Seattle_Police_Department_911_Incident_Response.csv")
 newData <- seattleCrimes %>%
              filter(Event.Clearance.Group == "ASSAULTS")
@@ -15,7 +17,8 @@ map.seattle_city <- get_map(location = "seattle",
                             source = 'google',
                             color = 'color',
                             filename = "ggmapTemp")
-#map.seattle_city
+
+## construct a map of seattle that shows the density of crimes 
 ggmap(map.seattle_city) +
   stat_density2d(data=newData, aes(x=Longitude
                                             , y=Latitude
@@ -33,6 +36,3 @@ ggplot() + geom_map(data = districtpassavg63, aes(map_id = District, fill = Pass
                     map = np_dist) + expand_limits(x = np_dist$long, y = np_dist$lat) + scale_fill_gradient2(low = muted("red"), 
                    mid = "white", midpoint = 50, high = muted("blue"), limits = c(0, 100))
 
-maine <- readOGR("data/spd-beats.geojson", "OGRGeoJSON")
-
-map1 <- ggplot2::fortify(maine, region="name")
