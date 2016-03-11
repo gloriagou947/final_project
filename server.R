@@ -69,14 +69,14 @@ shinyServer(function(input, output) {
       name = "Day 3"
     ) 
     #plot the final bar chart
-    layout(p, barmode = "stack", xaxis = list(title = "Each hour crime counts"),
-           yaxis = list(title = "Total crime"))
+    layout(p, barmode = "stack", xaxis = list(title = "Each hour incident counts"),
+           yaxis = list(title = "Total Incidents"))
   })
   
   # Density Map Tab -------------------------------------------------------------
   
   output$density_map <- renderPlot({
-    # filter out a new data that is based on user's interest of crime type
+    # filter out a new data that is based on user's interest of incident type
     new_data <- seattleCrimes %>% 
       filter(Event.Clearance.Group == input$type)
   # get Seattle map from Google using ggplot2   
