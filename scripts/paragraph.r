@@ -3,7 +3,7 @@ library(dplyr)
 require(dplyr)
 
 ## read the dataset
-data <- read.csv("../data/Seattle_Police_Department_911_Incident_Response.csv")
+data <- read.csv("data/Seattle_Police_Department_911_Incident_Response.csv")
 
 ## create a data frame and variables for the most dangerous/safest regions
 sector <- data %>% 

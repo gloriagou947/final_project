@@ -13,6 +13,7 @@ library(plotly)
 shinyServer(function(input, output) {
   
   # Read in data file
+  #our data is until March 1, 2016 since the data from the original website is updating
   seattleCrimes <- read.csv("data/Seattle_Police_Department_911_Incident_Response.csv")
   
   # Bar Chart Tab --------------------------------------------------------------
@@ -105,6 +106,12 @@ shinyServer(function(input, output) {
   
   # Summary Tab--------------------------------------------------------------
     # Code in this code is from r file "paragraph.r"
+  sector <- seattleCrimes %>% 
+    group_by(District.Sector) %>%
+    dplyr::summarise(count = n())
+  highest_rate_sector <- arrange(sector, desc(count))[1,1]
+  lowest_rate_sector <- arrange(sector, count)[1,1]
+
   
   # Table Tab -------------------------------------------------------------
   type <- group_by(seattleCrimes, Event.Clearance.Group) %>% 
