@@ -5,43 +5,67 @@
 #
 
 library(shiny)
-library(ggvis)
-library(rgdal)
-library(magrittr)
 library(dplyr)
 library(RColorBrewer)
-library(data.table)
-library(maptools)
 library(ggplot2)
 library(ggmap)
-library(plyr)
+library(plotly)
 shinyServer(function(input, output, session) {
-  
-  # Show progress bar while loading everything ------------------------------
-  
-  progress <- shiny::Progress$new()
-  progress$set(message="Loading maps/data", value=0)
   
   # Read in data file
   seattleCrimes <- read.csv("data/Seattle_Police_Department_911_Incident_Response.csv")
   
-  # First plot --------------------------------------------------------------
+  # Bar Chart Tab --------------------------------------------------------------
   
-  
-  
-  
-  output$choropleth_map <- renderPlot({
-  maine <- readOGR("data/spd-beats.geojson", "OGRGeoJSON")
-  
-  map1 <- fortify(maine, region="name")
-  
-  ggplot() + geom_map(data = seattleCrimes, aes(map_id = seattleCrimes$Zone.Beat, fill = numeric ), 
-                     map = map1) + expand_limits(x = map1$long, y = map1$lat) + scale_fill_gradient2(low = muted("red"), 
-   mid = "white", midpoint = 50, high = muted("blue"), limits = c(0, 100))
+  output$bar_chart <- renderPlotly({
+    # create new columns of day, hour reformat as am pm
+    seattleCrimes$day <- substr(seattleCrimes$Event.Clearance.Date, 4, 5)
+    seattleCrimes$day <- as.integer(seattleCrimes$day)
+    seattleCrimes$hour <- substr(seattleCrimes$Event.Clearance.Date, 12, 13)
+    seattleCrimes$hour <- as.integer(seattleCrimes$hour)
+    seattleCrimes$am_pm <- substr(seattleCrimes$Event.Clearance.Date, 21, 22)
+    
+    day1 <- filter(seattleCrimes, day == 1)
+    day2 <- filter(seattleCrimes, day == 2)
+    day3 <- filter(seattleCrimes, day == 3)
+    
+    hours <- c(paste(c(1:12), "AM"), paste(c(1:12), "PM"))
+    
+    each_day <- function(df) {
+      countX <- c()
+      for (i in 1:12) {
+        num_am <- nrow(filter(df, hour == i, am_pm == "AM"))
+        num_pm <- nrow(filter(df, hour == i, am_pm == "PM"))
+        countX[i] <- num_am
+        countX[i + 12] <- num_am
+      }
+      return(countX)
+    }
+    
+    plot_ly(
+      x = hours,
+      y = each_day(day1),
+      name = "Day 1",
+      type = "bar"
+    ) %>%
+    add_trace(
+      x = hours,
+      y = each_day(day2),
+      name = "Day 2"
+    ) %>%
+    add_trace(
+      x = hours,
+      y = each_day(day3),
+      name = "Day 3"
+    ) %>%
+    layout(barmode = "stack", xaxis = list(title = "Each hour crime counts"),
+           yaxis = list(title = "Total crime"))
   })
-  # Second plot -------------------------------------------------------------
-  # filter out a new data that is based on user's interest of crime type
+  
+  # Density Map Tab -------------------------------------------------------------
+  
   output$density_map <- renderPlot({
+    # filter out a new data that is based on user's interest of crime type
     new_data <- seattleCrimes %>% 
       filter(Event.Clearance.Group == input$type)
   # get Seattle map from Google using ggplot2   
@@ -53,7 +77,7 @@ shinyServer(function(input, output, session) {
                                 filename = "ggmapTemp")
   # render the map and shows the density of selected type of crime 
     ggmap(map.seattle_city) +
-      stat_density2d(data=newData, aes(x=Longitude
+      stat_density2d(data=new_data, aes(x=Longitude
                                        , y=Latitude
                                        ,color=..density..
                                        ,size=ifelse(..density..<=1,0,..density..)
@@ -64,19 +88,19 @@ shinyServer(function(input, output, session) {
       scale_alpha(range = c(0,.5), guide="none") +
       ggtitle("Seattle Crime") +
       theme(plot.title = element_text(family="Trebuchet MS", size=36, face="bold", hjust=0, color="#777777"))
+    
+    # turn off the progress bar
+
   })
-  # Third plot --------------------------------------------------------------
-  sector <- seattleCrimes %>% 
-    group_by(District.Sector) %>% 
-    summarise(count = n())
-  output$table <- renderDataTable({sector})
   
+  # Summary Tab--------------------------------------------------------------
+    # Code in this code is from r file "paragraph.r"
   
-  
-  # Fourth plot -------------------------------------------------------------
-  
-  # Turn off progress bar ---------------------------------------------------
-  
-  progress$close()
-  
+  # Table Tab -------------------------------------------------------------
+  type <- group_by(seattleCrimes, Event.Clearance.Group) %>% 
+            dplyr::summarise(count = n()) %>% 
+              arrange(desc(count))
+  output$table <- renderDataTable(
+    type, options = list(orderClasses = TRUE)
+  )
 })

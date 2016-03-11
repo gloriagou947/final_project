@@ -18,6 +18,7 @@ shinyUI(fluidPage(
       p("department after the incidents are considered safe to close out. The general goal of working with "),
       p("this dataset is to give Seattle residents or anyone who is interested in a better idea about Seattle’s safety "),
       hr(),
+      p(strong("NOTE:"), "These side bars are used for density map"),
       selectInput("type", label = h4("Select the type of crime that you are interested in"), choices = list("Arrest" = "ARREST", 
       "Assault" = "ASSAULTS", "Weapon" = "WEAPONS CALLS", "Theft" = "AUTO THEFTS", "Robbery" = "ROBBERY", "Hazards" = "HAZARDS",
       "Liquor Violation" = "LIQUOR VIOLATIONS", "Homicide" = "HOMICIDE", "Disturbances" = "DISTURBANCES", "Accidents" = "ACCIDENT INVESTIGATION"), selected = "ARREST"),
@@ -33,13 +34,13 @@ shinyUI(fluidPage(
     
     mainPanel(
       tabsetPanel(
-        tabPanel("Choropleth map", wellPanel(p("This is just a basic map outline. Since ggvis has no ", code("coord_map"), " we have to get creative with a fixed aspect ratio and good choices for height & width.")), plotOutput("choropleth_map")),
+        tabPanel("Bar Chart", wellPanel(p("This is a bar chart that shows the total number of crimes per hour.")), plotlyOutput("bar_chart")),
         tabPanel("Density Map", wellPanel(p("This is a density map that shows a type of crime that users are interested in within different depth of color")),plotOutput("density_map")),
         tabPanel("Summary", wellPanel(p("As a Seattle resident, what we care the most is safety. This web app best helps you to get an idea about where the safest region is, where the most dangerous region is,
                                         what the most common type of crime is, and when the most dangerous time is.
                                         Accroding the data",code ("highest_rate_sector"), " sector has the lowest crime rate, and"), code("lowest_rate_sector"), "sector has the highest crime rate. 
                                         The most common type of crime is", code ("highest_type"), " with",  code ("highest_type_number"), " crimes.")),
-        tabPanel("Table", dataTableOutput("sector"))
+        tabPanel("Table", wellPanel(p("This is a table showing ")), dataTableOutput('table'))
         ),
       width=9
     )
