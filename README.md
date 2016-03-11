@@ -12,7 +12,7 @@ We will be working with Seattle Police Department 911 Incident Response, the URL
 
 ●	What does your audience want to learn from your data?  Please list out at least 3 specific questions that your project will answer for your audience.
 
-  The general goal of working with this dataset is to give Seattle residents a better idea about Seattle’s safety. From our data, the audience can see where the most dangerous regions are.   They can learn where the safest places are. They can also learn about what kind of crime happens the most frequently and during what time of the day, crimes happen the most frequently. 
+  The general goal of working with this dataset is to give Seattle residents a better idea about Seattle’s safety. From our data, the audience can see where the most dangerous regions are. They can learn where the safest places are. They can also learn about what kind of crime happens the most frequently and during what time of the day, crimes happen the most frequently. 
 
 Technical Description
 This section of your proposal is an opportunity to think through the specific analytical steps you'll need to complete throughout the project.
@@ -31,16 +31,13 @@ This section of your proposal is an opportunity to think through the specific an
 
 ●	What (major/new) libraries will be using in this project (no need to list common libraries that are used in many projects such as dplyr)
 
-	We will be using plotly, ggplot2 (for making good-looking graphics), htmlwidgets (for building interactive visualizations). We are considering using ggvis for interactive, web-based       graphics, but not 100 percent sure for now. 
+	We will be using plotly, ggplot2 (for making good-looking graphics), htmlwidgets (for building interactive visualizations). We are considering using ggvis for interactive, web-based graphics, but not 100 percent sure for now. 
 
 ●	What questions, if any, will you be answering with statistical analysis/machine learning?
 	
-	With our statistical analysis, we can answer questions like visually showing the specific locations	    
-  that are dangerous or safe. We can also answer questions like what time of the day is fairly safe or 
-  dangerous. 
+	With our statistical analysis, we can answer questions like visually showing the specific locations that are dangerous or safe. We can also answer questions like what time of the day is fairly safe or dangerous. 
 
 ●	What major challenges do you anticipate? 
 
-	We are trying to beautify the web app by using some new packages that we have not used 
-  before. The major challenge might be applying unfamiliar R codes to our shiny web app. 
+	We are trying to beautify the web app by using some new packages that we have not used before. The major challenge might be applying unfamiliar R codes to our shiny web app. 
 
