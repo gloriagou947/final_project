@@ -6,7 +6,6 @@
 #
 
 library(shiny)
-library(ggvis)
 library(ggmap)
 library(ggplot2)
 shinyUI(fluidPage(

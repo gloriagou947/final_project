@@ -18,19 +18,25 @@ shinyServer(function(input, output, session) {
   # Bar Chart Tab --------------------------------------------------------------
   
   output$bar_chart <- renderPlotly({
-    # create new columns of day, hour reformat as am pm
+    #create a column that record the day of the crime based on event clearance date
     seattleCrimes$day <- substr(seattleCrimes$Event.Clearance.Date, 4, 5)
     seattleCrimes$day <- as.integer(seattleCrimes$day)
+    #create a column that record the hour of the crime based on event clearance date
     seattleCrimes$hour <- substr(seattleCrimes$Event.Clearance.Date, 12, 13)
     seattleCrimes$hour <- as.integer(seattleCrimes$hour)
+    #create a column that record the AM or PM of the crime based on event clearance date
     seattleCrimes$am_pm <- substr(seattleCrimes$Event.Clearance.Date, 21, 22)
     
+    #create 3 dataframe that filtered by 3 different days
     day1 <- filter(seattleCrimes, day == 1)
     day2 <- filter(seattleCrimes, day == 2)
     day3 <- filter(seattleCrimes, day == 3)
     
+    #create a vector that represents 24 hours in a day
     hours <- c(paste(c(1:12), "AM"), paste(c(1:12), "PM"))
     
+    #a function that passed a dataframe of one day and returns a vector of
+    #the total crime counts for each hour for that day
     each_day <- function(df) {
       countX <- c()
       for (i in 1:12) {
@@ -42,22 +48,26 @@ shinyServer(function(input, output, session) {
       return(countX)
     }
     
+    #graph for day 1
     plot_ly(
       x = hours,
       y = each_day(day1),
       name = "Day 1",
       type = "bar"
     ) %>%
+    #add graph for day 2 to day 1
     add_trace(
       x = hours,
       y = each_day(day2),
       name = "Day 2"
     ) %>%
+    #add graph for day 3 to day 1 and day 2  
     add_trace(
       x = hours,
       y = each_day(day3),
       name = "Day 3"
     ) %>%
+    #plot the final bar chart
     layout(barmode = "stack", xaxis = list(title = "Each hour crime counts"),
            yaxis = list(title = "Total crime"))
   })

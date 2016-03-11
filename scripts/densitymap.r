@@ -2,7 +2,6 @@
 install.packages('ggmap')
 install.packages('ggplot2')
 install.packages('dplyr')
-install.packages('plyr')
 library(ggmap)
 library(dplyr)
 library(ggplot2)
